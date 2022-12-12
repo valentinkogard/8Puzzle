@@ -5,10 +5,12 @@ from solve import solve
 
 class puzzle:
     def __init__(self):
+        """initializes the puzzle object"""
         self.startboard = []
         self.goalboard = []
 
-    def killProg():
+    def killProg(self):
+        """kills the program"""
         sys.exit()
         
     def __inputOrder(self):
@@ -40,12 +42,19 @@ class puzzle:
 
     def __setStartboard(self):
         """sets the startboard thus no inputs has to be made every time during testing phase"""
-        board = [["1", "2", "3"],
-                 ["4", "8", "5"],
-                 ["_", "7", "6"]]
+        #board = [["1", "2", "3"],
+        #         ["4", "8", "5"],
+        #         ["_", "7", "6"]]
+        #board = [["8", "1", "2"],
+        #         ["_", "4", "3"],
+        #         ["7", "6", "5"]]
+        board = [["2", "1", "3"],
+                 ["4", "5", "6"],
+                 ["7", "8", "_"]]
         self.startboard = board
 
     def __createRandomStartboard(self):
+        """this method generates a random startboard and stores it in self.startboard"""
         items = ["1", "2", "3", "4", "5", "6", "7", "8", "_"]
         random.shuffle(items)
         counter = 0
@@ -76,11 +85,16 @@ class puzzle:
 
         for i in range(100):
             self.__createRandomStartboard()
-            self.solve.setAlgorithm("hemming")
-            self.solve.solvepuzzle(self.startboard, self.goalboard)
-            self.solve.setAlgorithm("manhatten")
-            self.solve.solvepuzzle(self.startboard, self.goalboard)
-            print("----------------------------------------")
+            if(self.solve.isSolvable(self.startboard)):
+                print("solvable")
+                self.solve.setAlgorithm("hemming")
+                self.solve.solvepuzzle(self.startboard, self.goalboard)
+                self.solve.setAlgorithm("manhatten")
+                self.solve.solvepuzzle(self.startboard, self.goalboard)
+                print("----------------------------------------")
+            else:
+                print("not solvable")
+                self.printBoard(self.startboard)
 
 if __name__ == "__main__":
     game = puzzle()

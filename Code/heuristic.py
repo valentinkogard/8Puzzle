@@ -33,7 +33,7 @@ class heuristic:
                     return horizontalDist + verticalDist
 
     def manhatten(board1, board2):
-        "distance between solution and start point"
+        """distance between solution and start point"""
         distance = 0
 
         for i in range(len(board1)):

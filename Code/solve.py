@@ -1,10 +1,12 @@
 import time
+import math
 
 from heuristic import heuristic
 from boardtree import boardtree
 
 class solve:
     def __init__(self, super):
+        """initializes the puzzle object"""
         self.super = super
 
     def setAlgorithm(self, alg):
@@ -12,6 +14,7 @@ class solve:
         self.alg = alg
     
     def useAlgotithm(self, board1, board2):
+        """is used to switch between different heuristic functions / used in combination with setAlgorithm()"""
         if(self.alg == "hemming"):
             return heuristic.hemming(board1, board2)
         elif(self.alg == "manhatten"):
@@ -20,7 +23,25 @@ class solve:
             self.super.killProg()
 
     def setMaxTime(self, duration):
+        """set the max duration for a single solvepuzzle board / if time exceeded attempt"""
         self.maxTime = duration
+
+    def isSolvable(self, board):
+        """counts the inversions - if inversion is odd the puzzle is NOT solveable / if the inversion is even the puzzle is solveable"""
+        counter = 0
+
+        for i in range(len(board)*len(board[0])-1):
+            row1 = math.floor(i/len(board))
+            col1 = i % len(board)
+            for j in range(i+1, len(board)*len(board[0])):
+                row2 = math.floor(j/len(board))
+                col2 = j % len(board)
+                if(board[row1][col1] != "_" and board[row2][col2] != "_"):
+                    if(int(board[row1][col1]) > int(board[row2][col2])):
+                        counter += 1
+        if(counter % 2 == 0):
+            return True
+        return False
 
     def solvepuzzle(self, startboard, goalboard):
         stop = False
@@ -38,8 +59,7 @@ class solve:
             
             for i in newBoards:
                 if(i != None):
-                    #dist = heuristic.hemming(i, goalboard)  #calculate distances
-                    dist = self.useAlgotithm(i, goalboard)
+                    dist = self.useAlgotithm(i, goalboard)  #calculate distances
                     if(dist == 0):
                         stop = True
                         #self.super.printBoard(i)
