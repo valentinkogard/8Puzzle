@@ -42,7 +42,7 @@ class boardtree:
             val.append(self.__switch(board["board"], row, col, list[i][0], list[i][1]))
         return val            
 
-    def __compare(self, board1, board2):
+    def compare(self, board1, board2):
         "compare two boards - if they are the same return true otherwise return false"
         for i in range(len(board1)):
             for j in range(len(board1[0])):
@@ -53,14 +53,14 @@ class boardtree:
     def setExpanded(self, board):
         """sets the expanded tag to true for a given board"""
         for i in self.board:
-            if(i["expanded"] == False and self.__compare(i["board"], board["board"])):
+            if(i["expanded"] == False and self.compare(i["board"], board["board"])):
                 i["expanded"] = True
                 return
 
     def checkBoardExists(self, board):
         """check whether board already exists or not - if it exists return true otherwise false"""
         for i in self.board:
-            if(self.__compare(i["board"], board)):
+            if(self.compare(i["board"], board)):
                 return True
         return False
 

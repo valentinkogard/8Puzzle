@@ -2,12 +2,14 @@ import sys
 import random
 
 from solve import solve
+from store import store
 
 class puzzle:
-    def __init__(self):
+    def __init__(self, filelocation):
         """initializes the puzzle object"""
         self.startboard = []
         self.goalboard = []
+        self.datafilelocation = filelocation
 
     def killProg(self):
         """kills the program"""
@@ -83,19 +85,23 @@ class puzzle:
         self.solve = solve(self)
         self.solve.setMaxTime(5)
 
-        for i in range(100):
+        for i in range(500):
             self.__createRandomStartboard()
             if(self.solve.isSolvable(self.startboard)):
                 print("solvable")
                 self.solve.setAlgorithm("hemming")
-                self.solve.solvepuzzle(self.startboard, self.goalboard)
+                [alg1, iterations1, timeNeeded1] = self.solve.solvepuzzle(self.startboard, self.goalboard)
                 self.solve.setAlgorithm("manhatten")
-                self.solve.solvepuzzle(self.startboard, self.goalboard)
+                [alg2, iterations2, timeNeeded2] = self.solve.solvepuzzle(self.startboard, self.goalboard)
+                
+                data = str(iterations1) + "\t" + str(timeNeeded1) + "\t" + str(iterations2) + "\t" + str(timeNeeded2) + "\n"
+                store.writeToTxt(self.datafilelocation, data)
                 print("----------------------------------------")
             else:
                 print("not solvable")
                 self.printBoard(self.startboard)
 
 if __name__ == "__main__":
-    game = puzzle()
+    datalocation = "Code/performance.txt"
+    game = puzzle(datalocation)
     game.logic()

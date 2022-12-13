@@ -60,11 +60,12 @@ class solve:
             for i in newBoards:
                 if(i != None):
                     dist = self.useAlgotithm(i, goalboard)  #calculate distances
-                    if(dist == 0):
+                    if(dist == 0 and self.boardtree.compare(i, goalboard)):
                         stop = True
                         #self.super.printBoard(i)
                         timeNeeded = time.time() - startTime
                         print("found in " + str(iterations+1)  + " iterations and " + str(timeNeeded) + "sec using " + str(self.alg))
+                        return self.alg, iterations+1, timeNeeded
                     if(not self.boardtree.checkBoardExists(i)):
                         self.boardtree.addBoard(i, dist, False) #store nodes
 
@@ -73,3 +74,4 @@ class solve:
             if(time.time() > startTime + self.maxTime):
                 stop = True
                 print("no solution found in time using " + str(self.alg))
+                return self.alg, 0, self.maxTime
