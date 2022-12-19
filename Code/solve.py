@@ -5,17 +5,69 @@ from heuristic import heuristic
 from boardtree import boardtree
 
 class solve:
+    """
+    A class that includes all necessary methods to solve a 8 puzzle except the heuristic functions.
+
+    ...
+
+    Attributes
+    ----------
+    super : puzzle
+        to have access to super params
+
+    Methods
+    -------  
+    setAlgorithm(alg):
+        sets the used heuristic algorithm
+    useAlgotithm(board1, board2):
+        is used to switch between different heuristic functions / used in combination with setAlgorithm()
+    setMaxTime(duration):
+        set the max duration for a single solvepuzzle board / if time exceeded attempt
+    isSolvable(board):
+        counts the inversions - if inversion is odd the puzzle is NOT solveable / if the inversion is even the puzzle is solveable
+    solvepuzzle(startboard, goalboard):
+        solves the puzzle
+    """
+
     def __init__(self, super):
-        """initializes the puzzle object"""
+        """
+        initializes the solve object
+        
+        Parameters:
+            self (Solve): solve object.
+            super (puzzle): puzzle object.
+
+        Returns:
+            -
+        """
         self.super = super
 
     def setAlgorithm(self, alg):
-        """sets the used heuristic algorithm"""
+        """
+        sets the used heuristic algorithm
+        
+        Parameters:
+            self (Solve): solve object.
+            alg (String): defines which algorithmus should be used.
+
+        Returns:
+            -
+        """
         self.alg = alg
     
     def useAlgotithm(self, board1, board2):
-        """is used to switch between different heuristic functions / used in combination with setAlgorithm()"""
-        if(self.alg == "hemming"):
+        """
+        is used to switch between different heuristic functions / used in combination with setAlgorithm()
+        
+        Parameters:
+            self (Solve): solve object.
+            board1 (Array): a 2D matrix.
+            board2 (Array): a 2D matrix.
+
+        Returns:
+            -
+        """
+        if(self.alg == "hamming"):
             return heuristic.hemming(board1, board2)
         elif(self.alg == "manhatten"):
             return heuristic.manhatten(board1, board2)
@@ -23,11 +75,30 @@ class solve:
             self.super.killProg()
 
     def setMaxTime(self, duration):
-        """set the max duration for a single solvepuzzle board / if time exceeded attempt"""
+        """
+        set the max duration for a single solvepuzzle board / if time exceeded attempt
+        
+        Parameters:
+            self (Solve): solve object.
+            duration (Int): time in sec.
+
+        Returns:
+            -
+        """
         self.maxTime = duration
 
     def isSolvable(self, board):
-        """counts the inversions - if inversion is odd the puzzle is NOT solveable / if the inversion is even the puzzle is solveable"""
+        """
+        counts the inversions - if inversion is odd the puzzle is NOT solveable / if the inversion is even the puzzle is solveable
+        
+        Parameters:
+            self (Solve): solve object.
+            board (Array): a 2D matrix.
+
+        Returns:
+            solvable (Bool): is puzzle solvable
+        
+        """
         counter = 0
 
         for i in range(len(board)*len(board[0])-1):
@@ -44,6 +115,19 @@ class solve:
         return False
 
     def solvepuzzle(self, startboard, goalboard):
+        """
+        solves the puzzle
+
+        Parameters:
+            self (Solve): solve object.
+            startboard (Array): a 2D matrix.
+            goalboard (Array): a 2D matrix.
+
+        Returns:
+            alg (String): which algorithmus was used
+            iterations (Int): how many iterations where needed to find a solution
+            timeNeeded (Float): how long did it take to find a solution
+        """
         stop = False
         iterations = 0
         startTime = time.time()
